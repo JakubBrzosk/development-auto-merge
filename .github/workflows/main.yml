@@ -1,4 +1,4 @@
-oname: Automatically create pull request from development to epic branches
+name: Automatically create pull request from development to epic branches
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: List branches
+    - name: Create pull requests and try to merge them
       run: |
         git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
         BRANCHES=$(git for-each-ref --format '%(refname:short)' 'refs/remotes/origin/epic/rc-*')
