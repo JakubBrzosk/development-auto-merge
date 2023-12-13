@@ -25,7 +25,7 @@ jobs:
           PR_NUMBER=$(gh pr list --state open --base $branch --head development --json number --limit 1 --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
             echo "Pull request $PR_NUMBER exists. Proceeding to merge..."
-            gh pr merge $PR_NUMBER --merge --admin
+            gh pr merge $PR_NUMBER --merge --admin --auto
           else
             echo "Pull request does not exist for branch $branch."
           fi
