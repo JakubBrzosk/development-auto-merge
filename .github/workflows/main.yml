@@ -18,11 +18,8 @@ jobs:
       run: |
         git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
         BRANCHES=$(git for-each-ref --format '%(refname:short)' 'refs/remotes/origin/epic/rc-*')
-        echo "Remote branches matching the pattern: $BRANCHES"
-    - name: Create and Merge pull requests
-      run: |
-        BRANCHES=$(git for-each-ref --format '%(refname:short)' 'refs/heads/epic/rc-*')
-        for branch in $BRANCHES; do
+        for branchWithOrigin in $BRANCHES; do
+          branch=${branchWithOrigin#origin/}
           gh pr create --base $branch --head development --title "Automated PR from development to $branch" --body "This PR was automatically opened using GitHub actions" || true
           PR_NUMBER=$(gh pr list --state open --base $branch --head development --json number --limit 1 --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
